@@ -1,0 +1,67 @@
+\documentclass[12pt, legalpaper]{exam}
+\usepackage[paper=letterpaper,margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{newtxtext, newtxmath}
+\usepackage{enumitem}
+\usepackage{titling}
+\usepackage{listings}
+\usepackage{array}
+\usepackage{tabularray}
+\usepackage[ddmmyyyy]{datetime}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+\graphicxpath{ {{img_path}} }
+\NewColumnType{M}[1]{Q[m,c,#1]}
+% \usepackage[colorlinks=false]{hyperref}
+
+% Nastavení hlavičky
+\newcommand{\class}{Control Theory}
+\newcommand{\term}{Fall semester, 2023}
+\newcommand{\examnum}{3}
+
+% Nastavení tabulky bodů
+\pointpoints{pt.}{pts.}
+\hpword{Max. pts.:}
+\hsword{Recieved:}
+\hqword{Question:}
+\htword{Total:}
+
+\pagestyle{head}
+\firstpageheader{University of Chemistry and Technology \\ in Prague}{}{Department of Mathematics, \\ Informatics and Cybernetics}
+\runningheader{\class}{Page \thepage\ / \numpages}{Assignment \#\examnum}
+\runningheadrule
+
+\begin{document}
+\noindent
+\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} r @{\extracolsep{6pt}} l}
+\textbf{\class} & \textbf{Name:} & \makebox[2.5in][l]{ {{ name }} }\\
+\textbf{Assignment \#\examnum} & \textbf{Date:} & \makebox[2.5in][l]{\today}\\
+\end{tabular*}\\
+
+\rule[2ex]{\textwidth}{2pt}
+
+\begin{questions}
+
+        \question Consider the system described by differential equation
+
+        \begin{equation}
+             \dddot{y}+{{a[2]}}\ddot{y}+{{a[1]}}\dot{y}+{{a[0]}}={{b[2]}}\ddot{u}+{{b[1]}}\dot{u}+{{b[0]}}u.
+        \end{equation}
+        Find a transfer function $H(s)$ and matrices $(A,B,C,D)$ that represents the system in the controllable canonical form.
+        Make a scheme of this system in controllable canonical form in Simulink, using integrators and gain.
+        Is this system stable?
+
+        \question Consider a state-space model with matrices $(A,B,C,D)$ given as
+        \begin{equation}
+            A = {{A_matrix}},\,\,B = {{B_matrix}},\,\,C = {{C_matrix}},\,\,D=[0]
+        \end{equation}
+        Decide, whether is the system controllable and observable.
+        Design the state observer with poles $s_1={{observer[0]}}$, $s_2={{observer[1]}}$, $s_3={{observer[2]}}$ and $s_4={{observer[3]}}$.
+        Design the linear state feedback that will utilize designed observer, so that the poles of $A_{CL}$ will be
+        $s_{1,2}=-{{acl[0]}}\pm {{acl[1]}}j$, $s_3=-{{acl[2]}}$ and $s_3=-{{acl[3]}}$. Make a scheme (including observer and state-feedback) in Simulink.
+
+\end{questions}
+\end{document}
