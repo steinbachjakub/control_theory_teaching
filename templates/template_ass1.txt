@@ -1,0 +1,68 @@
+\documentclass[12pt, legalpaper]{exam}
+\usepackage[paper=letterpaper,margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{newtxtext, newtxmath}
+\usepackage{enumitem}
+\usepackage{titling}
+\usepackage{listings}
+\usepackage{array}
+\usepackage{tabularray}
+\usepackage[ddmmyyyy]{datetime}
+\usepackage{xcolor}
+\NewColumnType{M}[1]{Q[m,c,#1]}
+% \usepackage[colorlinks=false]{hyperref}
+
+% Nastavení hlavičky
+\newcommand{\class}{Control Theory}
+\newcommand{\term}{Fall semester, 2023}
+\newcommand{\examnum}{1}
+
+% Nastavení tabulky bodů
+\pointpoints{pt.}{pts.}
+\hpword{Max. pts.:}
+\hsword{Recieved:}
+\hqword{Question:}
+\htword{Total:}
+
+\pagestyle{head}
+\firstpageheader{University of Chemistry and Technology \\ in Prague}{}{Department of Mathematics, \\ Informatics and Cybernetics}
+\runningheader{\class}{Page \thepage\ / \numpages}{Assignment \#\examnum}
+\runningheadrule
+
+\begin{document}
+\noindent
+\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} r @{\extracolsep{6pt}} l}
+\textbf{\class} & \textbf{Name:} & \makebox[2.5in][l]{ {{ name }} }\\
+\textbf{Assignment \#\examnum} & \textbf{Date:} & \makebox[2.5in][l]{\today}\\
+\end{tabular*}\\
+
+\rule[2ex]{\textwidth}{2pt}
+
+\begin{questions}
+
+        \question Using Laplace transform, solve $ {{ ode_params[0] }} y''(t) + {{ ode_params[1] }} y'(t) +
+        {{ ode_params[2] }} y = {{ ode_right_side }}$ for $y(t)$, given the initial conditions
+        $y(0) = {{ ode_initial_conditions[0] }} $ and $y'(0) = {{ ode_initial_conditions[1] }} $.
+        Confirm your solution using MATLAB.
+
+        \question Find the steady-state value for the system that is described by the differential equation above.
+
+        \question You are given a transfer function:
+        \begin{equation*}
+        H(s) = \frac{1}{ {{ hs_bottom[0] }} s^2 +
+        {{ hs_bottom[1] }} s + C }
+        \end{equation*}
+        Find the interval of $C$ for which the system is stable using the knowledge of the poles placement in
+        the complex plane, using the Hurwitz criterion, and using the Routh-Shur criterion.
+
+        {\color{red} Note: Since the poles are placed in the complex domain, remember to expand all your
+        calculations to the complex domain as well!}
+
+        \question Using MATLAB, for the $H(s)$ given above and $C = {{ hs_bottom[2] }}$, find the $rise\,time$,
+        $settling\,time$, $peak \, time$, $peak \, value$, and $overshoot$.
+        Also, plot the $impulse \, response$ and $step \, response$.
+
+\end{questions}
+\end{document}

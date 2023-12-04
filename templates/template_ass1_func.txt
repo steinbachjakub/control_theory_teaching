@@ -1,0 +1,5 @@
+function dy = {{ func_name }}(t, y)
+dy = zeros(2, 1);
+dy(1) = y(2);
+dy(2) = (- {{ ode_params_sol[1] }} * y(2) - {{ ode_params_sol[2] }} * y(1) + {{ ode_right_side_sol[0] }} + {{ ode_right_side_sol[1] }} * exp(-t)) / {{ ode_params_sol[0] }};
+end
