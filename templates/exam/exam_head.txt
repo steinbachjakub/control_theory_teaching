@@ -8,6 +8,7 @@
 \usepackage{titling}
 \usepackage{listings}
 \usepackage{array}
+\usepackage{tabularx}
 \usepackage{tabularray}
 \usepackage[ddmmyyyy]{datetime}
 \usepackage{xcolor}
@@ -17,7 +18,7 @@
 % Nastavení hlavičky
 \newcommand{\class}{Control Theory}
 \newcommand{\term}{Fall semester, {{exam_year}}}
-\newcommand{\examnum}{{exam_date}}
+%\newcommand{\examnum}{{exam_date}}
 
 % Nastavení tabulky bodů
 \pointpoints{pt.}{pts.}
@@ -28,14 +29,18 @@
 
 \pagestyle{head}
 \firstpageheader{University of Chemistry and Technology \\ in Prague}{}{Department of Mathematics, \\ Informatics and Cybernetics}
-\runningheader{\class}{Page \thepage\ / \numpages}{Assignment \#\examnum}
+\runningheader{\class}{Page \thepage\ / \numpages}{Assignment \#{exam_idx}}
 \runningheadrule
 
 \begin{document}
 \noindent
-\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} r @{\extracolsep{6pt}} l}
-\textbf{\class} & \textbf{Name:} & \makebox[2.5in][l]{ {{ name }} }\\
-\textbf{Assignment \#\examnum} & \textbf{Date:} & \makebox[2.5in][l]{\today}\\
-\end{tabular*}\\
+
+\begin{tabularx}{\textwidth}{XX}
+\textbf{\class} & \textbf{Name:} \\
+\textbf{Exam \#{{exam_idx}}} & \textbf{Date: {{exam_date}}} \\
+\end{tabularx}\\
 
 \rule[2ex]{\textwidth}{2pt}
+\begin{questions}
+
+

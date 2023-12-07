@@ -1,0 +1,7 @@
+\question The system is described by the ODE given as
+\begin{equation*}
+\ddot{y}=u
+\end{equation*}
+Find the transfer function $H(s)$ and determine the poles, zeros and DC gain of the system. Find the impulse response $y(t)$ of this system and assess the stability of the system, determining whether it is stable or unstable.
+\end{questions}
+\end{document}
