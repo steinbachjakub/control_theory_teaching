@@ -15,7 +15,7 @@ ENVIRONMENT = Environment(loader=FileSystemLoader("./templates/"))
 TEMPLATE_ASSIGNMENT = ENVIRONMENT.get_template("template_ass3.txt")
 OUTPUT_FOLDER = Path("outputs", "assignment_3").absolute()
 PARAMETERS_FILE = Path("outputs", "parameters_assignment_3.csv")
-PARAMETERS_FILE.unlink(missing_ok=True)
+#PARAMETERS_FILE.unlink(missing_ok=True)
 # Load the list of students
 STUDENTS = pd.read_csv("students.csv")
 # Additional parameters
@@ -23,15 +23,20 @@ IMAGES = list(Path("templates", "images").glob("*.png"))
 random.shuffle(IMAGES)
 while len(IMAGES) < STUDENTS.shape[0]:
     IMAGES += IMAGES
+
+with open(PARAMETERS_FILE, "r", encoding="utf-8") as f:
+    content = eval("[" + f.read().replace("}{", "},{") + "]")
 # Generate specific assignment for each student
-for index, (name, surname, email) in enumerate(zip(STUDENTS["First name"], STUDENTS["Surname"], STUDENTS["Email address"])):
+for index, (name, surname, email, context) in enumerate(zip(STUDENTS["First name"], STUDENTS["Surname"], STUDENTS["Email address"], content)):
+    print(content)
     # if index == 2:
     #     break
     # Assignment
     ## Task 1
-    a = [random.randint(1,10) for _ in range(3)]
-    b = [random.randint(1, 5) for _ in range(3)]
-
+    # TODO load a, b from datafile
+    assignment_filename = Path("tex_files", f"{email.split('@')[0]}.tex")
+    with open(assignment_filename, mode="w", encoding="utf-8") as results:
+        results.write(TEMPLATE_ASSIGNMENT.render(context))
     ## Task 2
 
     not_found = True
@@ -66,9 +71,8 @@ for index, (name, surname, email) in enumerate(zip(STUDENTS["First name"], STUDE
     acl.sort()
     # Generate context based on the randomly generated tasks
     context = {
-            "name": name + " " + surname,
-            "a": [value if value > 1 else "" for value in a],
-            "b": [value if value > 1 else "" for value in b],
+            "a": context["a"],
+            "b": context["b"],
             "A_matrix": "\n".join(a_matrix),
             "B_matrix": "\n".join(b_matrix).replace(",", ""),
             "C_matrix": "\n".join(c_matrix),
@@ -80,7 +84,7 @@ for index, (name, surname, email) in enumerate(zip(STUDENTS["First name"], STUDE
         results.write(TEMPLATE_ASSIGNMENT.render(context))
         print(f"... wrote {assignment_filename}")
 
-    subprocess.run(["pdflatex", f"--output-directory={OUTPUT_FOLDER}", assignment_filename, "-quiet"])
+    # subprocess.run(["pdflatex", f"--output-directory={OUTPUT_FOLDER}", assignment_filename, "-quiet"])
 
     if PARAMETERS_FILE.exists():
         with open(PARAMETERS_FILE, "a", encoding="utf-8") as f:
