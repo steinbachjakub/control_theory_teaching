@@ -52,7 +52,7 @@ for index, (name, surname, email) in enumerate(zip(STUDENTS["First name"], STUDE
     a_matrix += [r"\end{bmatrix}"]
     b_line = str(b).replace("[", "").replace("]", "")
     b_matrix = [r"\begin{bmatrix}"]
-    b_matrix += [" " + " & ".join(b_line.split(","))]
+    b_matrix += [" " + " \\ ".join(b_line.split(","))]
     b_matrix += [r"\end{bmatrix}"]
     c_lines = str(C).replace("[", "").replace("]", "").splitlines()
     c_matrix = [r"\begin{bmatrix}"]
