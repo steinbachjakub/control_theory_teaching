@@ -48,7 +48,7 @@
         \question Consider the system described by differential equation
 
         \begin{equation}
-             \dddot{y}+{{a[2]}}\ddot{y}+{{a[1]}}\dot{y}+{{a[0]}}={{b[2]}}\ddot{u}+{{b[1]}}\dot{u}+{{b[0]}}u.
+             \dddot{y}+{{a[2]}}\ddot{y}+{{a[1]}}\dot{y}+{{a[0]}}y={{b[2]}}\ddot{u}+{{b[1]}}\dot{u}+{{b[0]}}u.
         \end{equation}
         Find a transfer function $H(s)$ and matrices $(A,B,C,D)$ that represent the system in the controllable canonical form.
         Make a scheme of this system in controllable canonical form in Simulink, using integrators and gain.
