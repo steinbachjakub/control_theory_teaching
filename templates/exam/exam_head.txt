@@ -1,0 +1,41 @@
+\documentclass[12pt, legalpaper]{exam}
+\usepackage[paper=letterpaper,margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{newtxtext, newtxmath}
+\usepackage{enumitem}
+\usepackage{titling}
+\usepackage{listings}
+\usepackage{array}
+\usepackage{tabularray}
+\usepackage[ddmmyyyy]{datetime}
+\usepackage{xcolor}
+\NewColumnType{M}[1]{Q[m,c,#1]}
+% \usepackage[colorlinks=false]{hyperref}
+
+% Nastavení hlavičky
+\newcommand{\class}{Control Theory}
+\newcommand{\term}{Fall semester, {{exam_year}}}
+\newcommand{\examnum}{{exam_date}}
+
+% Nastavení tabulky bodů
+\pointpoints{pt.}{pts.}
+\hpword{Max. pts.:}
+\hsword{Recieved:}
+\hqword{Question:}
+\htword{Total:}
+
+\pagestyle{head}
+\firstpageheader{University of Chemistry and Technology \\ in Prague}{}{Department of Mathematics, \\ Informatics and Cybernetics}
+\runningheader{\class}{Page \thepage\ / \numpages}{Assignment \#\examnum}
+\runningheadrule
+
+\begin{document}
+\noindent
+\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} r @{\extracolsep{6pt}} l}
+\textbf{\class} & \textbf{Name:} & \makebox[2.5in][l]{ {{ name }} }\\
+\textbf{Assignment \#\examnum} & \textbf{Date:} & \makebox[2.5in][l]{\today}\\
+\end{tabular*}\\
+
+\rule[2ex]{\textwidth}{2pt}
