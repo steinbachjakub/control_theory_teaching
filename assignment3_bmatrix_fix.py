@@ -84,7 +84,7 @@ for index, (name, surname, email, context) in enumerate(zip(STUDENTS["First name
         results.write(TEMPLATE_ASSIGNMENT.render(context))
         print(f"... wrote {assignment_filename}")
 
-    # subprocess.run(["pdflatex", f"--output-directory={OUTPUT_FOLDER}", assignment_filename, "-quiet"])
+    subprocess.run(["pdflatex", f"--output-directory={OUTPUT_FOLDER}", assignment_filename, "-quiet"])
 
     if PARAMETERS_FILE.exists():
         with open(PARAMETERS_FILE, "a", encoding="utf-8") as f:

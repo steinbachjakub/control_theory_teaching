@@ -1,0 +1,21 @@
+\question Assume the plant with transfer function $L(s)$ given as
+\begin{equation*}
+L(s)=\cfrac{s+{{zero}}}{ {{denumerator}} }
+\end{equation*}
+What is the steady-state error $e_{ss}$ of the closed-loop system for the {{signal}} input?
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{./templates/images/test_l_loop.png}
+
+\end{figure}
+
+What is the steady-state error $e_{ss}$ for the {{signal}} input if we use the controller with transfer function
+\begin{equation*}
+C(s)=\cfrac{ {{K_i}} }{s}
+\end{equation*}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{./templates/images/test_cl_loop.png}
+
+\end{figure}
+

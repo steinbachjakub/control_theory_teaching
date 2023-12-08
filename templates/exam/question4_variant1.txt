@@ -1,0 +1,7 @@
+\question For the system with transfer function
+\begin{equation*}
+H(s)=\cfrac{ {{numerator}} }{ {{denominator}} }
+\end{equation*}
+sketch the magnitude plot and phase angle plot.
+
+

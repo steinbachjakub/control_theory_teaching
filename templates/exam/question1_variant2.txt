@@ -1,7 +1,8 @@
 \question The system is described by the ODE given as
 \begin{equation*}
-\ddot{y}=u
+\ddot{y}+{{a[0]}}\dot{y}+{{a[1]}}y={{b[1]}}\dot{u}+{{b[0]}}u
 \end{equation*}
-Find the transfer function $H(s)$ and determine the poles, zeros and DC gain of the system. Find the impulse response $y(t)$ of this system and assess the stability of the system, determining whether it is stable or unstable.
-\end{questions}
-\end{document}
+Find the transfer function $H(s)$ and determine the poles, zeros and DC gain of the system. Find the impulse response $y(t)$ (assume zero initial conditions) of this system and assess the stability of the system, determining whether it is stable or unstable.
+
+
+

@@ -12,6 +12,9 @@
 \usepackage{tabularray}
 \usepackage[ddmmyyyy]{datetime}
 \usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+
 \NewColumnType{M}[1]{Q[m,c,#1]}
 % \usepackage[colorlinks=false]{hyperref}
 
@@ -27,9 +30,11 @@
 \hqword{Question:}
 \htword{Total:}
 
+
+
 \pagestyle{head}
 \firstpageheader{University of Chemistry and Technology \\ in Prague}{}{Department of Mathematics, \\ Informatics and Cybernetics}
-\runningheader{\class}{Page \thepage\ / \numpages}{Assignment \#{exam_idx}}
+\runningheader{\class}{Page \thepage /\numpages }{Exam \# {{exam_idx}} }
 \runningheadrule
 
 \begin{document}

@@ -3,5 +3,4 @@
 H(s)=\cfrac{s+{{zero}}}{ {{denumerator}}}
 \end{equation*}
 Determine the poles, zeros and DC gain of the system. Assess the stability of the system, determining whether it is stable or unstable.
-\end{questions}
-\end{document}
+
