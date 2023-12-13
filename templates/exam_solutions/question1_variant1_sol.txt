@@ -1,0 +1,25 @@
+\section*{Task \#1}
+Determine the step response y(t) of the system with transfer function $H(s)$ given as
+\begin{equation*}
+H(s)=\cfrac{ {{K}} }{ {{denumerator}} }
+\end{equation*}
+Determine the poles and DC gain of the system. Assess the stability of the system, determining whether it is stable or unstable.
+\\
+\subsection*{Solution}
+\begin{equation*}
+poles=\{ {{pole1}}, {{pole2}} \}
+\end{equation*}
+\begin{equation*}
+DC_{gain}=\lim_{s\rightarrow 0} H(s) = {{dc_gain}}
+\end{equation*}
+Partial fraction decomposition
+\begin{equation*}
+H(s)= {{ partial_fractions }}
+\end{equation*}
+Step response
+\begin{equation*}
+y(t)= {{ ilaplace }}
+\end{equation*}
+
+
+

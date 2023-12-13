@@ -23,37 +23,50 @@ import sympy
 
 # Get values for head (exam year, exam date, number of students)
 EXAM_DATES = ["19-12-2023", "04-01-2024", "11-01-2024", "25-01-2024", "01-02-2024", "08-02-2024"]
-EXAM_YEAR = date.today().strftime("%Y")
+EXAM_YEAR = 2023
 EXAM_DATE = date.today().strftime("%d %B %Y")
-
+s, t = sympy.symbols("s, t")
 # Set up latex environment
-ENVIRONMENT = Environment(loader=FileSystemLoader("./templates/exam/"))
-TEMPLATE_HEAD = ENVIRONMENT.get_template("exam_head.txt")
-TEMPLATE_END = ENVIRONMENT.get_template("z_end_document.txt")
-OUTPUT_FOLDER = Path("outputs", f"exams_{date.today().strftime('%Y')}")
+QUESTION_ENVIRONMENT = Environment(loader=FileSystemLoader("./templates/exam/"))
+TEMPLATE_HEAD_QUESTION = QUESTION_ENVIRONMENT.get_template("exam_head.txt")
+TEMPLATE_END_QUESTION = QUESTION_ENVIRONMENT.get_template("z_end_document.txt")
+
+SOLUTION_ENVIRONMENT = Environment(loader=FileSystemLoader("./templates/exam_solutions/"))
+TEMPLATE_HEAD_SOLUTION = SOLUTION_ENVIRONMENT.get_template("exam_head_sol.txt")
+TEMPLATE_END_SOLUTION = SOLUTION_ENVIRONMENT.get_template("z_end_document.txt")
+OUTPUT_FOLDER_QUESTION = Path("outputs", f"exams_{date.today().strftime('%Y')}")
 
 for idx, exam_date in enumerate(EXAM_DATES):
     assignment_filename = Path("tex_files", f"assigment{idx + 1}.tex")
+    solution_filename = Path("tex_files", "exam_solution",  f"assigment{idx + 1}_solution.tex")
     if idx == 1:
         break
     # Generate head
     head_filename = Path("tex_files", f"head_exam_{idx + 1}.tex")
+    head_solution_filename = Path("tex_files", "exam_solution" , f"head_exam_{idx + 1}.tex")
     context = {
         "exam_date": exam_date,
         "exam_idx": idx + 1
     }
     # Generate tex file with head
     with open(head_filename, mode="w", encoding="utf-8") as exam_tex_file:
-        exam_tex_file.write(TEMPLATE_HEAD.render(context))
+        exam_tex_file.write(TEMPLATE_HEAD_QUESTION.render(context))
         print(f"... wrote {head_filename}")
+    with open(head_solution_filename, mode="w", encoding="utf-8") as exam_tex_file:
+        exam_tex_file.write(TEMPLATE_HEAD_SOLUTION.render(context))
+        print(f"... wrote {head_solution_filename}")
+
+
 
     # Generate first question which is
     # 1. ODE to transfer function
     # 2. step response y(t) from transfer function
-    if random.choice([1, 2]) == 1:
-        TEMPLATE_Q1 = ENVIRONMENT.get_template("question1_variant1.txt")
-        tf_zero = random.choice([x for x in range(5, 11)])
-        denumerator_coeffs = [random.choice([i for i in range(-3,3)]), random.choice([i for i in range(-4,4)])]
+    if random.choice([2]) == 1:
+        TEMPLATE_Q1 = QUESTION_ENVIRONMENT.get_template("question1_variant1.txt")
+        tf_k = random.choice([x for x in range(5, 11)])
+        pole1 = random.choice([i for i in range(1, 5)])
+        pole2 = random.choice([i for i in range(1, 5)])
+        denumerator_coeffs = [pole1 + pole2,  pole1 * pole2]
         denumerator = "s^2"
         if denumerator_coeffs[0] != 0:
             if denumerator_coeffs[0] == 1:
@@ -66,16 +79,47 @@ for idx, exam_date in enumerate(EXAM_DATES):
             denumerator += f"{denumerator_coeffs[1]:+}"
 
         context = {
-            "zero": tf_zero,
+            "K": tf_k,
             "denumerator": denumerator
         }
+        TEMPLATE_A1 = SOLUTION_ENVIRONMENT.get_template("/question1_variant1_sol.txt")
+        partial_fractions = sympy.apart(tf_k / (s * (s ** 2 + (pole1 + pole2) * s + pole1 * pole2)),
+                                        full=True)
+        partial_fractions_plot = sympy.latex(sympy.sympify(partial_fractions, evaluate=False))
+        ilaplace = sympy.inverse_laplace_transform(partial_fractions, s, t)
+
+        print(sympy.latex(sympy.sympify(ilaplace, evaluate=False)))
+        context_sol = {
+            "K": tf_k,
+            "denumerator": denumerator,
+            "pole1": -pole1,
+            "pole2": -pole2,
+            "dc_gain": tf_k / (pole1 * pole2),
+            "partial_fractions": partial_fractions_plot,
+            "ilaplace": sympy.latex(sympy.sympify(ilaplace, evaluate=False)).replace("\\theta\left(t\\right)", "")
+        }
     else:
-        TEMPLATE_Q1 = ENVIRONMENT.get_template("question1_variant2.txt")
-        a = [random.randint(1, 10) for _ in range(2)]
-        b = [random.randint(1, 5) for _ in range(1)]
+        TEMPLATE_Q1 = QUESTION_ENVIRONMENT.get_template("question1_variant2.txt")
+        pole1 = random.choice([i for i in range(1, 5)])
+        pole2 = random.choice([i for i in range(1, 5)])
+        a = [pole1 + pole2, pole1 * pole2]
+        b = [random.randint(1, 5)]
         context = {
             "a": a,
             "b": b
+        }
+        TEMPLATE_A1 = SOLUTION_ENVIRONMENT.get_template("/question1_variant2_sol.txt")
+        partial_fractions = sympy.apart((s + b[0]) / (s * (s ** 2 + (pole1 + pole2) * s + pole1 * pole2)),
+                                        full=True)
+        partial_fractions_plot = sympy.latex(sympy.sympify(partial_fractions, evaluate=False))
+        ilaplace = sympy.inverse_laplace_transform(partial_fractions, s, t)
+        context_sol = {
+            "a": a,
+            "b": b,
+            "pole1": pole1,
+            "pole2": pole2,
+            "partial_fractions": partial_fractions_plot,
+            "ilaplace": sympy.latex(sympy.sympify(ilaplace, evaluate=False)).replace("\\theta\left(t\\right)", "").replace("\\frac{}", "\\frac{{1}}")
         }
     q1_filename = Path("tex_files", f"q1_exam_{idx + 1}.tex")
     with open(q1_filename, mode="w", encoding="utf-8") as exam_tex_file:
@@ -83,9 +127,14 @@ for idx, exam_date in enumerate(EXAM_DATES):
         print(f"... wrote {q1_filename}")
 
 
+    sol1_filename = Path("tex_files", "exam_solution" ,f"sol_exam_{idx + 1}.tex")
+    with open(sol1_filename, mode="w", encoding="utf-8") as exam_tex_file:
+        exam_tex_file.write(TEMPLATE_A1.render(context_sol))
+        print(f"... wrote {sol1_filename}")
+
     # Generate second question which is
     # 1. step response of the 2nd order system
-    TEMPLATE_Q2 = ENVIRONMENT.get_template("question2_variant1.txt")
+    TEMPLATE_Q2 = QUESTION_ENVIRONMENT.get_template("question2_variant1.txt")
     denominators = [
         # np.array([1, 0, 1]),  # undamped
         # np.array([1, 0, 4]),    # undamped
@@ -119,7 +168,7 @@ for idx, exam_date in enumerate(EXAM_DATES):
     # Generate third question which is
     # type of the system
 
-    TEMPLATE_Q3 = ENVIRONMENT.get_template("question3_variant1.txt")
+    TEMPLATE_Q3 = QUESTION_ENVIRONMENT.get_template("question3_variant1.txt")
     q3_filename = Path("tex_files", f"q3_exam_{idx + 1}.tex")
     s = symbols("s")
     system_type = random.choice([0, 1])
@@ -139,7 +188,7 @@ for idx, exam_date in enumerate(EXAM_DATES):
 
     # Generate fourth question which is
     # Sketch Bode plot
-    TEMPLATE_Q4 = ENVIRONMENT.get_template("question4_variant1.txt")
+    TEMPLATE_Q4 = QUESTION_ENVIRONMENT.get_template("question4_variant1.txt")
     q4_filename = Path("tex_files", f"q4_exam_{idx + 1}.tex")
     zero_root = random.randint(3, 5)
     numerator = (s + zero_root)*(s+random.randint(6, 9)) # two negative zeros
@@ -156,7 +205,7 @@ for idx, exam_date in enumerate(EXAM_DATES):
     # Generate fifth question which is
     # 1. TF2SS + controllability and observability
     # 2. SS2TF + controllability and observability
-    TEMPLATE_Q5 = ENVIRONMENT.get_template("question5_variant1.txt")
+    TEMPLATE_Q5 = QUESTION_ENVIRONMENT.get_template("question5_variant1.txt")
     q5_filename = Path("tex_files", f"q5_exam_{idx + 1}.tex")
     not_found = True
     while not_found:
@@ -169,13 +218,22 @@ for idx, exam_date in enumerate(EXAM_DATES):
     if random.choice([1]) == 1:
         # 1. TF2SS + controllability and observability
         tf = C * (s * sympy.eye(3) - A).inv() * B
+        print(sympy.simplify(sympy.simplify(tf)))
         numerator, denominator = str(sympy.simplify(tf)[0]).replace("**", "^").replace("*", "").split("/")
         print(f"numerator[0] - {numerator[0]}")
         if numerator[0] == "(":
-            numerator = numerator.replace("(", "").replace(")", "")
+            if numerator[0:6].count("(") < 2:
+                numerator = numerator.replace("(", "").replace(")", "")
+            else:
+                numerator = numerator[1:-1]
+        if denominator[0] == "(":
+            if denominator[0:6].count("(") < 2:
+                denominator = denominator.replace("(", "").replace(")", "")
+            else:
+                denominator = denominator[1:-1]
         context = {
             "numerator": numerator,
-            "denominator": denominator.replace("(","").replace(")", "")
+            "denominator": denominator
         }
     with open(q5_filename, mode="w", encoding="utf-8") as exam_tex_file:
         exam_tex_file.write(TEMPLATE_Q5.render(context))
@@ -186,9 +244,14 @@ for idx, exam_date in enumerate(EXAM_DATES):
     # Generate tex file with end
     footer_filename = Path("tex_files", f"z_end_document.tex")
     with open(footer_filename, mode="w", encoding="utf-8") as exam_tex_file:
-        exam_tex_file.write(TEMPLATE_END.render())
+        exam_tex_file.write(TEMPLATE_END_QUESTION.render())
         print(f"... wrote {footer_filename}")
 
+    # Generate tex file with end
+    footer_filename = Path("tex_files", "exam_solution", f"z_end_document.tex")
+    with open(footer_filename, mode="w", encoding="utf-8") as exam_tex_file:
+        exam_tex_file.write(TEMPLATE_END_SOLUTION.render())
+        print(f"... wrote {footer_filename}")
 
     # Join text files together to final assignment tex file
     tex_files = Path(f"tex_files")
@@ -197,12 +260,25 @@ for idx, exam_date in enumerate(EXAM_DATES):
             print(f"processing {tex_file}")
             with open(tex_file, "r") as source_tex:
                 assignment_text.write(source_tex.read())
+
+    # Join text files together to final assignment tex file
+    tex_files = Path(f"tex_files", "exam_solution")
+    with open(solution_filename, "w") as assignment_text:
+        for tex_file in tex_files.glob(f"*.tex"):
+            print(f"processing {tex_file}")
+            with open(tex_file, "r") as source_tex:
+                assignment_text.write(source_tex.read())
+
     # Compile PDF
-    subprocess.run(['pdflatex', f'--output-directory={OUTPUT_FOLDER}',
+    subprocess.run(['pdflatex', f'--output-directory={OUTPUT_FOLDER_QUESTION}',
                     assignment_filename, "-quiet"], check=True)
+    # Compile PDF
+    subprocess.run(['pdflatex', f'--output-directory={OUTPUT_FOLDER_QUESTION}',
+                    Path(solution_filename), "-quiet"], check=True)
+
 
 # Delete all auxiliary files
-files_to_delete = list(OUTPUT_FOLDER.glob("*.log")) + list(OUTPUT_FOLDER.glob("*.aux"))
+files_to_delete = list(OUTPUT_FOLDER_QUESTION.glob("*.log")) + list(OUTPUT_FOLDER_QUESTION.glob("*.aux"))
 for file in files_to_delete:
     file.unlink()
 
