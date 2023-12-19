@@ -6,6 +6,6 @@
 \end{figure}
 
 Sketch the rise time $t_r$, peak time $t_p$, oveshoot $M_p$ and settling time $t_s$ into the step response graph.
-Based on the step response, is the system undamped ($\xi=0$), underdamped ($0<\xi<1$) or overdamped ($\xi>1$)?
+Based on the step response, is the system undamped ($\xi=0$), underdamped ($0<\xi<1$) or overdamped ($\xi>1$)? (\textbf{10 points})
 \pagebreak
 

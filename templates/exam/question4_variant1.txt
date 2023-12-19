@@ -2,6 +2,6 @@
 \begin{equation*}
 H(s)=\cfrac{ {{numerator}} }{ {{denominator}} }
 \end{equation*}
-sketch the magnitude plot and phase angle plot.
+sketch the magnitude plot and phase angle plot. (\textbf{10 points})
 
 

@@ -2,4 +2,4 @@
 \begin{equation*}
 H(s)=\cfrac{ {{numerator}} }{ {{denominator}}}
 \end{equation*}
-Determine the state-space model of the system and compute controllability matrix $\mathcal{C}$, observability matrix $\mathcal{O}$ and decide whether the realization is observable or controllable.
+Determine the state-space model of the system and compute controllability matrix $\mathcal{C}$, observability matrix $\mathcal{O}$ and decide whether the realization is observable or controllable. (\textbf{20 points})

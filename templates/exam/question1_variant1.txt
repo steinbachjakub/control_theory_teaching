@@ -2,5 +2,5 @@
 \begin{equation*}
 H(s)=\cfrac{ {{K}} }{ {{denumerator}}}
 \end{equation*}
-Determine the poles, zeros and DC gain of the system. Assess the stability of the system, determining whether it is stable or unstable.
+Determine the poles, zeros and DC gain of the system. Assess the stability of the system, determining whether it is stable or unstable. (\textbf{10 points})
 
