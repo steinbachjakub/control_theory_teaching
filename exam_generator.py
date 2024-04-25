@@ -22,8 +22,8 @@ import sympy
 
 
 # Get values for head (exam year, exam date, number of students)
-EXAM_DATES = ["19-12-2023", "04-01-2024", "11-01-2024", "25-01-2024", "01-02-2024", "08-02-2024"]
-EXAM_YEAR = 2023
+EXAM_DATES = ["2024-04-26"]
+EXAM_YEAR = 2024
 EXAM_DATE = date.today().strftime("%d %B %Y")
 s, t = sympy.symbols("s, t")
 # Set up latex environment
@@ -35,6 +35,8 @@ SOLUTION_ENVIRONMENT = Environment(loader=FileSystemLoader("./templates/exam_sol
 TEMPLATE_HEAD_SOLUTION = SOLUTION_ENVIRONMENT.get_template("exam_head_sol.txt")
 TEMPLATE_END_SOLUTION = SOLUTION_ENVIRONMENT.get_template("z_end_document.txt")
 OUTPUT_FOLDER_QUESTION = Path("outputs", f"exams_{date.today().strftime('%Y')}")
+OUTPUT_FOLDER_QUESTION.mkdir(exist_ok=True)
+
 
 for idx, exam_date in enumerate(EXAM_DATES):
     assignment_filename = Path("tex_files", f"assigment{idx + 1}.tex")
@@ -96,7 +98,7 @@ for idx, exam_date in enumerate(EXAM_DATES):
             "pole2": -pole2,
             "dc_gain": tf_k / (pole1 * pole2),
             "partial_fractions": partial_fractions_plot,
-            "ilaplace": sympy.latex(sympy.sympify(ilaplace, evaluate=False)).replace("\\theta\left(t\\right)", "")
+            "ilaplace": sympy.latex(sympy.sympify(ilaplace, evaluate=False)).replace("\\theta\\left(t\\right)", "")
         }
     else:
         TEMPLATE_Q1 = QUESTION_ENVIRONMENT.get_template("question1_variant2.txt")
@@ -119,7 +121,7 @@ for idx, exam_date in enumerate(EXAM_DATES):
             "pole1": pole1,
             "pole2": pole2,
             "partial_fractions": partial_fractions_plot,
-            "ilaplace": sympy.latex(sympy.sympify(ilaplace, evaluate=False)).replace("\\theta\left(t\\right)", "").replace("\\frac{}", "\\frac{{1}}")
+            "ilaplace": sympy.latex(sympy.sympify(ilaplace, evaluate=False)).replace("\\theta\\left(t\\right)", "").replace("\\frac{}", "\\frac{{1}}")
         }
     q1_filename = Path("tex_files", f"q1_exam_{idx + 1}.tex")
     with open(q1_filename, mode="w", encoding="utf-8") as exam_tex_file:
@@ -256,7 +258,9 @@ for idx, exam_date in enumerate(EXAM_DATES):
     # Join text files together to final assignment tex file
     tex_files = Path(f"tex_files")
     with open(assignment_filename, "w") as assignment_text:
-        for tex_file in tex_files.glob(f"*.tex"):
+        files_to_process = sorted(tex_files.glob(f"*.tex"))
+        print(files_to_process)
+        for tex_file in files_to_process:
             print(f"processing {tex_file}")
             with open(tex_file, "r") as source_tex:
                 assignment_text.write(source_tex.read())
@@ -264,7 +268,9 @@ for idx, exam_date in enumerate(EXAM_DATES):
     # Join text files together to final assignment tex file
     tex_files = Path(f"tex_files", "exam_solution")
     with open(solution_filename, "w") as assignment_text:
-        for tex_file in tex_files.glob(f"*.tex"):
+        files_to_process = sorted(tex_files.glob(f"*.tex"))
+        print(files_to_process)
+        for tex_file in files_to_process:
             print(f"processing {tex_file}")
             with open(tex_file, "r") as source_tex:
                 assignment_text.write(source_tex.read())
