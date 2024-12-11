@@ -25,7 +25,7 @@ import sympy
 EXAM_DATES = ["2024-04-26"]
 EXAM_YEAR = 2024
 EXAM_DATE = date.today().strftime("%d %B %Y")
-s, t = sympy.symbols("s, t")
+s, t, j = sympy.symbols("s, t, j")
 # Set up latex environment
 QUESTION_ENVIRONMENT = Environment(loader=FileSystemLoader("./templates/exam/"))
 TEMPLATE_HEAD_QUESTION = QUESTION_ENVIRONMENT.get_template("exam_head.txt")
@@ -192,9 +192,11 @@ for idx, exam_date in enumerate(EXAM_DATES):
     # Sketch Bode plot
     TEMPLATE_Q4 = QUESTION_ENVIRONMENT.get_template("question4_variant1.txt")
     q4_filename = Path("tex_files", f"q4_exam_{idx + 1}.tex")
-    zero_root = random.randint(3, 5)
-    numerator = (s + zero_root)*(s+random.randint(6, 9)) # two negative zeros
-    denominator = (s + random.randint(1, zero_root - 1))*(s ** 2 + random.randint(1, 4)*s + random.randint(4, 9)) # two stable complex conjurgate + one stable real
+    zero_root = random.choice([0.1, 10, 100, 1000])
+    numerator = (s + zero_root)*(s+random.choice([0.1, 10, 100, 1000])) # two negative zeros
+    omega = random.choice([0.1, 1, 10])
+    zeta = random.choice([0.1, 0.2, 0.5, 0.7, 0.9])
+    denominator = (s + random.choice([0.1, 10, 100, 1000]))*(s ** 2 + 2 * zeta * omega * s + omega ** 2) # two stable complex conjurgate + one stable real
     context = {
         "numerator": str(numerator).replace("*", ""),
         "denominator": str(denominator).replace("**", "^").replace("*", "")
